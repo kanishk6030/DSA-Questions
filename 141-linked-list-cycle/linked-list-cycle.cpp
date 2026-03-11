@@ -9,14 +9,28 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        map<ListNode* , bool> visited;
-        //base case
-        if( head == NULL || head -> next == NULL) return false;
-        ListNode* temp = head;
-        while(temp != NULL){
-            if(visited[temp] == true) return true;
-            visited[temp] = true;
-            temp = temp -> next;
+        // //Using Map
+        // map<ListNode* , bool> visited;
+        // //base case
+        // if( head == NULL || head -> next == NULL) return false;
+        // ListNode* temp = head;
+        // while(temp != NULL){
+        //     if(visited[temp] == true) return true;
+        //     visited[temp] = true;
+        //     temp = temp -> next;
+        // }
+        // return false;
+
+        // FLoyds Cycle Detectio Algo
+        if( head == NULL || head -> next == NULL) return false;\
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(slow!=NULL && fast!=NULL){
+            fast = fast -> next;
+            if(fast != NULL) fast = fast -> next;
+            slow = slow -> next;
+
+            if(slow == fast) return true;
         }
         return false;
     }
