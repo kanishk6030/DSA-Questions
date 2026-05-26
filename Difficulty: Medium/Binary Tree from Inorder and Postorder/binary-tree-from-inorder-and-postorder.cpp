@@ -14,7 +14,7 @@ public:
 
 class Solution {
   public:
-   void createMapping(vector<int> inorder,map<int,int>&nodeToIndex,int n){
+  void createMapping(vector<int> inorder,map<int,int>&nodeToIndex,int n){
         for(int i = 0;i< n;i++){
             nodeToIndex[inorder[i]] = i;
         }
@@ -22,7 +22,7 @@ class Solution {
     
     Node *solve(vector<int> &inorder, vector<int> &postorder,int &index,int inorderStart,int inorderEnd,int n,map<int,int>&nodeToIndex){
         //base case 
-        if(index < 0 || inorderStart > inorderEnd ){
+        if(index < 0  || inorderStart > inorderEnd ){
             return NULL;
         }
         //Picking the first element from the preOrder and increasing the index by 1
