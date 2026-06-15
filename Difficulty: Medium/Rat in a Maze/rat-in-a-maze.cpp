@@ -1,84 +1,61 @@
 class Solution {
   public:
-  bool isSafe(int x,int y, int n, vector<vector<int>> visited, vector<vector<int>> maze){
-      if((x>=0 && x<n) && (y>=0 && y<n) && (visited[x][y] == 0) && maze[x][y] == 1){
+  
+  bool isSafe(int newx,int newy,vector<vector<bool>>& visited, vector<vector<int>>&maze,int n){
+      if((newx >= 0 && newx < n) && (newy >= 0 && newy < n) && visited[newx][newy] != 1 && maze[newx][newy] == 1){
           return true;
       }
       else{
           return false;
       }
   }
-    void solve(vector<vector<int>>& maze,int n ,vector<string> &ans , int x,int y,vector<vector<int>>&visited,string path ){
-            //base case
-            //Agar last index e aphuch gaye toh ans return krwa do
-            if(x == n-1 && y == n-1){
-                ans.push_back(path);
-                return;
-            }
-            visited[x][y] = 1;
-            
-            // four choice to choose the correct movement 
-            //Down
-            int newx = x + 1;
-            int newy = y;
-            if(isSafe(newx,newy,n,visited,maze)){
-                path.push_back('D');
-                solve(maze,n,ans,newx,newy,visited,path);
-                //When we backtrack then pop_back
-                path.pop_back();
-            }
-            
-            newx = x - 1;
-            newy = y;
-            if(isSafe(newx,newy,n,visited,maze)){
-                path.push_back('U');
-                solve(maze,n,ans,newx,newy,visited,path);
-                //When we backtrack then pop_back
-                path.pop_back();
-            }
-            
-            newx = x;
-            newy = y+1;
-            if(isSafe(newx,newy,n,visited,maze)){
-                path.push_back('R');
-                solve(maze,n,ans,newx,newy,visited,path);
-                //When we backtrack then pop_back
-                path.pop_back();
-            }
-            
-            newx = x;
-            newy = y - 1;
-            if(isSafe(newx,newy,n,visited,maze)){
-                path.push_back('L');
-                solve(maze,n,ans,newx,newy,visited,path);
-                //When we backtrack then pop_back
-                path.pop_back();
-            }
-            
-            
-            visited[x][y] = 0;
-    }
-    vector<string> ratInMaze(vector<vector<int>>& maze) {
+  
+  void solve(int x, int y,vector<vector<int>>& maze, int n,vector<string> &ans,vector<vector<bool>> &visited, string path ){
+      //base  case
+      if(x == n-1 && y==n-1){
+          ans.push_back(path);
+          return;
+      }
+      
+      //4 Movement 
+      //D, L, R, U
+      
+      //Down
+      if(isSafe(x+1,y,visited,maze,n)){
+          visited[x][y] = 1;
+          solve(x+1,y,maze,n,ans,visited,path + 'D');
+          visited[x][y] = 0;
+      }
+      //left
+      if(isSafe(x,y-1,visited,maze,n)){
+          visited[x][y] = 1;
+          solve(x,y-1,maze,n,ans,visited,path + 'L');
+          visited[x][y] = 0;
+      }
+      //right
+      if(isSafe(x,y+1,visited,maze,n)){
+          visited[x][y] = 1;
+          solve(x,y+1,maze,n,ans,visited,path + 'R');
+          visited[x][y] = 0;
+      }
+      //up
+      if(isSafe(x-1,y,visited,maze,n)){
+          visited[x][y] = 1;
+          solve(x-1,y,maze,n,ans,visited,path + 'U');
+          visited[x][y] = 0;
+      }
+      
+  }
+vector<string> ratInMaze(vector<vector<int>>& maze) {
         // code here
         
         int n = maze.size();
         vector<string> ans;
-        if(maze[0][0] == 0) return ans;
-        int srcx = 0;
-        int srcy = 0;
-        
-        vector<vector<int>> visited = maze;
-        
-        //initialise
-        for(int i = 0 ;i < n ; i++){
-            for(int j = 0;j < n;j++){
-                visited[i][j] = 0;
-            }
-        }
-        
+        vector<vector<bool>> visited(n, vector<bool> (n,0));
         string path = "";
-        solve(maze,n,ans,srcx,srcy,visited,path);
-        sort(ans.begin(),ans.end());
+        if(maze[0][0] == 0) return ans;
+        
+        solve(0,0,maze,n,ans,visited,path);
         return ans;
-    }
+}
 };
