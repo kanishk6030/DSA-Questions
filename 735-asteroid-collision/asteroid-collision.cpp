@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& asteroids) {
         int n = asteroids.size();
-        list<int> st;
+        vector<int> st;
         for(int i = 0 ; i < n;i++ ){
             if(asteroids[i] > 0) st.push_back(asteroids[i]);
             else{
@@ -17,6 +17,6 @@ public:
                 }
             }
         }
-        return vector<int>(st.begin(), st.end());
+        return st;
     }
 };
