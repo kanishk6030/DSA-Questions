@@ -10,30 +10,27 @@
  */
 class Solution {
 public:
-    int getLength(ListNode* head){
-        int len = 0;
-        while(head != NULL){
-            head = head -> next;
-            len ++;
-        }
-        return len;
-    }
     ListNode* deleteMiddle(ListNode* head) {
-        int len = getLength(head);
-        if(len <= 1){
-            return NULL;
-        }
-        //Calculating the mid
-        int mid = (len/2);
+        if(head -> next == nullptr) return nullptr;
+        ListNode* slow = head;
+        ListNode* fast = head;
         ListNode* temp = head;
-        int cnt = 1;
-        while(cnt < mid){
-            temp = temp -> next;
-            cnt++;
+
+        while(fast != nullptr && fast->next != nullptr){
+            slow = slow -> next;
+            fast = fast -> next -> next;
         }
-        temp -> next = temp -> next -> next;
-        // temp -> next -> next = NULL;
+
+        //now after this loop we got the middle of the ll
+        //that is represented by slow
+
+        while(temp -> next != slow && temp -> next != nullptr){
+            temp = temp -> next;
+        }
+
+        temp -> next = slow -> next;
+
         return head;
-    
+        
     }
 };
