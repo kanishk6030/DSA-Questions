@@ -10,44 +10,23 @@
  */
 class Solution {
 public:
-    ListNode* solution(ListNode* first, ListNode* second){
-
-        if(first -> next == NULL){
-            first -> next = second;
-            return first;
-        }
-
-        ListNode* curr1 = first; 
-        ListNode* curr2 = second;
-        ListNode* next1 = curr1 -> next;
-        ListNode* next2 = curr2 -> next;
-
-        while(next1 != NULL && curr2 != NULL){
-            if(curr2 -> val >= curr1->val && curr2 -> val < next1 -> val){
-                curr1 -> next = curr2;
-                next2 = curr2 -> next;
-                curr2 -> next = next1;
-
-                curr1 = curr2;
-                curr2 = next2;
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* dummy  = new ListNode(-1);
+        ListNode* temp = dummy;
+        while(list1 != nullptr && list2 != nullptr){
+            if(list1->val < list2->val){
+                temp -> next = list1;
+                temp = list1;
+                list1 = list1 -> next;
             }
             else{
-                curr1 = next1;
-                next1 = next1 -> next;
-                if(next1 == NULL){
-                    curr1 -> next = curr2;
-                    return first;
-                }
+                temp -> next = list2;
+                temp = list2;
+                list2 = list2 -> next;
             }
         }
-        return first;
-    }
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        if(list1 == NULL) return list2;
-        if(list2 == NULL) return list1;
-        if(list1 -> val > list2 -> val) return solution(list2,list1);
-        else if(list2 -> val > list1 -> val) return solution(list1,list2);
-        // (list2 -> val == list1 -> val)
-        else return solution(list1,list2);
+        if(list1 != nullptr) temp -> next = list1;
+        else temp -> next = list2;
+        return dummy -> next;
     }
 };
