@@ -10,7 +10,7 @@
  */
 class Solution {
 public:
-    void insertAtTail(ListNode* &ansHead,ListNode* &ansTail,int digit){
+   void insertAtTail(ListNode* &ansHead,ListNode* &ansTail,int digit){
         ListNode* temp = new ListNode(digit);
         if(ansHead == NULL){
             ansHead = temp;
